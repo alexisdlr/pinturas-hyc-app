@@ -1,0 +1,78 @@
+
+.container-registrar {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:url('../images/login1.jpg') no-repeat center/cover ;
+
+  
+  .form {
+    background-color: #eee8;
+    color: $primary;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem;
+    border-radius: 8px;
+    box-shadow: rgba($color: $primary, $alpha: .4) 0px 5px,  rgba($color: $primary, $alpha: .3) 0px 10px,  rgba($color: $primary, $alpha: .2) 0px 15px,  rgba($color: $primary, $alpha: .1) 0px 20px, rgba(240, 46, 170, 0.05) 0px 25px;
+    .registrar {
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        p {
+          justify-content: center;
+          display: flex;
+          flex-direction: column;
+          color: #000;
+        }
+        a {
+            color: $primary;
+            &:hover {
+                transition: .5s ease-in-out ;
+                opacity: .8;
+            }
+        }
+    }
+    
+    h2 {
+        color: $primary;
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+     label {
+         margin-bottom: 1rem;
+     }
+     input {
+         height: 30px;
+         margin-bottom: 1rem;
+     }
+     button {
+         width: 120px;
+         padding: .5rem;
+         background-color: $primary;
+         color: #eee;
+         border: none;
+         border-radius: 1000px;
+         cursor: pointer;
+         &:hover {
+             transition: .5s ease-in-out ;
+             background-color: #eee;
+             color: $primary;
+  
+         }
+     }
+     
+  }
+}
+.container-logo-login{
+    max-width: 1200px;
+    padding: 0 2rem;
+    justify-content: start;
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    left: 0;
+  }

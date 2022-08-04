@@ -1,0 +1,74 @@
+@import 'variables';
+.nav {
+  width: 100%;
+  display: flex;
+  background-color: rgba(255, 255, 255, .7);
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  color: $black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.nav-ul {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 2;
+  .nav-ul_li {
+   list-style: none;
+    
+  }
+}
+.container-icons {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 2rem;
+}
+.container-buscar {
+  width: 220px;
+  position: relative;
+  .input {
+    width: 100%;
+    padding: .3rem;
+    border: 1px solid $primary;
+    border-radius: 5px;
+
+  }
+  .icon {
+    display: flex;
+    gap: 5px;
+    background: transparent;
+    position: absolute;
+    top: 10px;
+    right: .5rem;
+    color: $primary;
+  }
+  
+ 
+}
+.container-logo {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  font-size: 45px;
+  font-weight: bold;
+  color:$primary;
+}
+.container-car {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon-car {
+    flex-grow: 1;
+    display: flex;
+    gap: 5px;
+    background: transparent;
+    color: $primary;
+  }
+}
