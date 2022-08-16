@@ -1,7 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-header("Content-Type: text/html; charset=utf-8");
+require_once('cors.php');
 $method = $_SERVER['REQUEST_METHOD'];
     include "bd/conectForLogin.php";
     $mysqli = conectarDB();
@@ -11,8 +9,9 @@ $method = $_SERVER['REQUEST_METHOD'];
     session_start();    
     $mysqli->set_charset('utf8');
 	    
-	$usuario = $dataObject-> usuario;
-	$pas =	$dataObject-> clave;
+	$usuario = $_POST['usuario'];
+	$pas =$_POST['clave'];
+
     
   if ($nueva_consulta = $mysqli->prepare("SELECT 
   usuarios.nombre, usuarios.clave, usuarios.apellidos, usuarios.usuario, usuarios.idTipoUsuario, usuarios.id, tipo_usuario.etiquetaTipoUsuario, tipo_usuario.descripcionTipoUsuario 

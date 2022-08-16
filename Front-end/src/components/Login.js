@@ -5,12 +5,10 @@ import Title from './Title';
 const URL = 'https://pinturas-hyc.000webhostapp.com/Backend/Login.php'
 
 const fetchApi = async (url, data) => {
+  console.log(data)
   const req = await fetch(url, {
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    body: data,
   })
   const res = await req.json()
   return res
@@ -27,7 +25,11 @@ const Login = ({Log, Admin, LoggedUser, idUser}) => {
       usuario : refUsuario.current.value,
       clave : refClave.current.value
     }
-    const res = await fetchApi(URL, user)
+    let f = new FormData();
+    f.append("usuario", user.usuario);
+    f.append("clave", user.clave);
+    const res = await fetchApi(URL, f)
+    console.log(res)
     Log(res.conectado)
     Admin(res.etiquetaTipoUsuario)
     setError(res.error)
