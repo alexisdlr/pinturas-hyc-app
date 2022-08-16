@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Title from './Title';
 
-const URL = 'https://pinturas-hyc.000webhostapp.com/Backend/Backend/Login.php'
+const URL = 'https://pinturas-hyc.000webhostapp.com/Backend/Login.php'
 
 const fetchApi = async (url, data) => {
   const req = await fetch(url, {

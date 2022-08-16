@@ -7,9 +7,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 function conectarDB(){
 
   $servidor = "localhost";
-  $usuario = "root";
-  $password = "alexis";
-  $bd = "hycpinturas";
+  $usuario = "id19420533_root";
+  $password = "nX%N!^gTviz?z9ar";
+  $bd = "id19420533_hycpinturas";
   //$bd = "cajaherr_datos";
   
 
