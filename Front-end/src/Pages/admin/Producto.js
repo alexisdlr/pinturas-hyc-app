@@ -5,6 +5,7 @@ import pintura from '../../images/revesto.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import Buttonref from "../../components/Buttonref";
+import Loader from "../../components/Loader";
 export const Producto = () => {
   const params = useParams()
   const baseUrl = `https://pinturas-hyc.000webhostapp.com/Backend/productos.php?id=${params.productoId}`
@@ -147,7 +148,7 @@ export const Producto = () => {
           </div>
 
       </div>
-        )) : 'no hay datos'
+        )) : <Loader />
       } 
           
        

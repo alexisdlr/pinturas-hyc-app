@@ -4,6 +4,7 @@
 @import 'footer';
 @import 'publicHomePage';
 @import 'home';
+@import 'loader';
 
 body {
   &::-webkit-scrollbar{
@@ -209,7 +210,16 @@ a {
 .absolute-jj {
   border-radius: 4px;
   position: absolute;
-  top: 450px;
+  top: 58%;
   left: 45%;
-  z-index: 9999999;
+  z-index: 99;
+
+  @media (min-width: 1440px) {
+    top: 60%;
+    left: 45%;
+  }
+  @media (min-width: 2000px) {
+    top: 60%;
+    left: 48%;
+  }
 }

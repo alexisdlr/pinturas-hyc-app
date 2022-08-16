@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalFooter, ModalHeader, Table} from 'reactstrap';
 import Title from '../../components/Title';
 import Buttonref from '../../components/Buttonref';
+import Loader from '../../components/Loader';
 const Colores = () => {
   const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/colores.php'
   const [data, setData]=useState([])
@@ -130,7 +131,9 @@ const Colores = () => {
         </tr>
       </thead>
   <tbody>
-        {data.map(producto=>(
+        {
+        data ? 
+        data.map(producto=>(
           <tr key={producto.id}>
             <td>{producto.id}</td>
             <td>{producto.nombre}</td>
@@ -145,7 +148,9 @@ const Colores = () => {
           <button className="btn btn-danger" onClick={()=>seleccionarProducto(producto, "Eliminar")}>Eliminar</button>
           </td>
           </tr>
-        ))}
+        )) : <Loader />
+      
+      }
 
 
       </tbody> 

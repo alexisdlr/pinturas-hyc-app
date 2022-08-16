@@ -6,6 +6,7 @@ import Title from '../../components/Title';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Icon } from '../../components/Icon';
 import Buttonref from '../../components/Buttonref';
+import Loader from '../../components/Loader';
 
 
 const ProductosAdmin = () => {
@@ -202,6 +203,7 @@ const ProductosAdmin = () => {
       </thead>
   <tbody>
         {
+        data ? 
         data
           .filter(producto => {
             if (!filter) return true;
@@ -227,7 +229,8 @@ const ProductosAdmin = () => {
               </td>
 
             </tr>
-        ))}
+        )) : <Loader />
+      }
 
 {/* select `hycpinturas`.`productos`.`id` AS `id`, `hycpinturas`.`productos`.`stock`*`hycpinturas`.`productos`.`precioV` AS `prodvendido`, SUM(`hycpinturas`.`productos`.`preciov`) AS `Total`, `hycpinturas`.`productos`.`nombre` AS `producto` from (`hycpinturas`.`productos`); */}
 
