@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalFooter, ModalHeader, Table} from 'reactstrap';
 import Title from '../../components/Title';
-
+import Buttonref from '../../components/Buttonref';
 const Colores = () => {
   const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/colores.php'
   const [data, setData]=useState([])
@@ -111,12 +111,14 @@ const Colores = () => {
   return (
     <div>
       <div className='container fluid d-flex justify-content-center margin-top' id='productos'>
+      <Buttonref href='#colores' className='link link-home absolute-jj' >Ver colores</Buttonref>
+
         <Title classList='title' text='Colores' />
       </div>
       <div className='d-flex justify-content-center mb-3'>     
          <button className="btn btn-success" onClick={()=>abrirCerrarModalInsertar()}>Insertar</button>
       </div>
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center' id='colores'>
     <Table>
       <thead>
         <tr className='bg-blue text-light '>

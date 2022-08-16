@@ -140,6 +140,7 @@ a {
     transform: translateX(90px);
   }
  }
+
 .user-item {
   display: flex;
   align-items: center;
@@ -206,4 +207,11 @@ a {
 }
 .width-650 {
   width: 650px;
+}
+.absolute-jj {
+  border-radius: 4px;
+  position: absolute;
+  top: 450px;
+  left: 45%;
+  z-index: 9999999;
 }

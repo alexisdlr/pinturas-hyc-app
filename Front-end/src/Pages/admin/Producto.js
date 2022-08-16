@@ -4,6 +4,7 @@ import axios from "axios"
 import pintura from '../../images/revesto.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import Buttonref from "../../components/Buttonref";
 export const Producto = () => {
   const params = useParams()
   const baseUrl = `https://pinturas-hyc.000webhostapp.com/Backend/productos.php?id=${params.productoId}`
@@ -102,7 +103,7 @@ export const Producto = () => {
   },[])
   return(
     <div style={{height:'100vh'}}  >
-    
+    <Buttonref href='#productos' className='link link-home absolute-jj' >Ver producto</Buttonref>
     <div className='d-flex  py-5 ' id='productos'>
       
       {

@@ -30,7 +30,8 @@ const ProductosPublicPage = () => {
               <img src={estrellas} alt='estrellas png' style={{height:'18px'}} />
               <button className="btn btn-primary">Ver mas</button>
              </div>
-              <img src={producto.imagen} alt={producto.nombre} className='img-public'/>
+             <img src={"data:image/+item.extension+;base64,"+producto.imagen} className="img-public" 
+                alt="imagen"/>
             </div>
             </div>
           )) : 'no hay datos'

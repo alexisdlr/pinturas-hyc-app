@@ -7,6 +7,7 @@ import { useVentas } from '../../hooks/useVentas';
 import { useVentasTotales } from '../../hooks/useVentasTotales';
 import { useTotal } from '../../hooks/useTotal';
 import {  useRef, useState } from "react"
+import Buttonref from '../../components/Buttonref';
 
 
 const Reportes = () => {
@@ -63,9 +64,9 @@ const Reportes = () => {
  
   return (
     <div style={{height: '100vh'}}>
-     
-      <div className='container fluid d-flex justify-content-center mb-4 margin-top' >
-        <Title classList='title' text='Reportes' isHeading={true}/>
+      <Buttonref href='#reportes' className='link link-home absolute-jj' >Ver Reportes</Buttonref>
+      <div className='container fluid d-flex justify-content-center mb-4 margin-top' id='reportes'>
+        <Title  classList='title' text='Reportes' isHeading={true}/>
       </div>
     
       <div className='d-flex justify-content-center mb-4'>

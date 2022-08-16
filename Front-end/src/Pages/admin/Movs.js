@@ -7,6 +7,7 @@ import Title from '../../components/Title';
 import { useSearchParams } from 'react-router-dom';
 import { peticionGet } from '../../services/get';
 import { useProd } from '../../hooks/useProd';
+import Buttonref from '../../components/Buttonref';
 
 const Movs = ({idUser}) => {
 
@@ -100,6 +101,9 @@ const Movs = ({idUser}) => {
 
   return (
     <div style={{height: '100vh'}}>
+      <Buttonref href='#movs' className='link link-home absolute-jj' >
+      Ver movimientos
+      </Buttonref>
       <div className='container fluid d-flex justify-content-center margin-top' id='productos'>
         <Title classList='title' text='Movimientos' />
       </div>
@@ -123,8 +127,8 @@ const Movs = ({idUser}) => {
            </div>
       </div>
          
-      <div className='d-flex justify-content-center mt-5'>
-    <Table >
+      <div className='d-flex justify-content-center mt-5'id='movs'>
+    <Table  >
       <thead>
         <tr className='bg-blue text-light'>
           <th>ID</th>

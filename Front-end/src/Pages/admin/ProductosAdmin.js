@@ -5,6 +5,7 @@ import {Modal, ModalBody, ModalFooter, ModalHeader, Table} from 'reactstrap';
 import Title from '../../components/Title';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Icon } from '../../components/Icon';
+import Buttonref from '../../components/Buttonref';
 
 
 const ProductosAdmin = () => {
@@ -159,7 +160,8 @@ const ProductosAdmin = () => {
 
   return (
     <div style={{height:'100vh'}} >
-    
+        <Buttonref href='#table-products' className='link link-home absolute-jj' >Ver productos</Buttonref>
+
       
       <div className='container fluid d-flex flex-column justify-content-center align-items-center margin-top' id='productos'>
         <Title classList='title mb-2' text='Productos' />
@@ -184,7 +186,7 @@ const ProductosAdmin = () => {
         </div>
       </div>
       
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center' id='table-products'>
     <Table className=''>
       <thead>
         <tr className='bg-blue text-light '>
