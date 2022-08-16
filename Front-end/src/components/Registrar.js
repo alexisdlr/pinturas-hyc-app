@@ -5,7 +5,7 @@ import Title from './Title';
 
 const Registrar = () => {
 
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/registrar.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/registrar.php'
   const [data, setData]=useState([]);
 
   const [values, setValues] = useState({
