@@ -58,6 +58,8 @@ const Reportes = () => {
     console.log(fecha, e.target.value)
     
   }
+  console.log(prod.map(item =>item.stock))
+
  
   return (
     <div style={{height: '100vh'}}>
@@ -167,8 +169,8 @@ const Reportes = () => {
             </thead>
           <tbody>
 
-              {/* {
-              ventas.length >0 ? 
+              {
+              ventas ? 
               ventas.map(mov=>(
                 <tr key={mov.id}>
                   <td>{mov.id}</td>
@@ -178,7 +180,7 @@ const Reportes = () => {
                  
             
                 </tr>
-              )): <td>No hay resultados</td>} */}
+              )): <td>No hay resultados</td>}
             </tbody> 
       
           </Table>
@@ -241,7 +243,8 @@ const Reportes = () => {
               </tr>
             </thead>
           <tbody>
-              {prod
+              {
+              prod
               .filter(({stock, stockMin}) => stock <= stockMin)
               .map(item=>(
                 <tr key={item.id}>
@@ -249,7 +252,7 @@ const Reportes = () => {
                   <td>{item.nombre}</td>
                   <td>{item.tipo}</td>
                   <td>{item.marca}</td>
-                  <td className='text-danger'>{item.stock}</td>
+                  <td className='text-danger'>{item.stock === null ? '0': item.stock}</td>
                   <td >{item.stockMin}</td>
                   <td>
                   <img src={"data:image/+item.extension+;base64,"+item.imagen} className="img" 
