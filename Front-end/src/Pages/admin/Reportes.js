@@ -167,8 +167,8 @@ const Reportes = () => {
             </thead>
           <tbody>
 
-              {
-              ventas ? 
+              {/* {
+              ventas.length >0 ? 
               ventas.map(mov=>(
                 <tr key={mov.id}>
                   <td>{mov.id}</td>
@@ -178,7 +178,7 @@ const Reportes = () => {
                  
             
                 </tr>
-              )): 'No hay resultados'}
+              )): <td>No hay resultados</td>} */}
             </tbody> 
       
           </Table>

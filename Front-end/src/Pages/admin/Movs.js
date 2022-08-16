@@ -162,7 +162,7 @@ const Movs = ({idUser}) => {
             ()=>{
             abrirCerrarModalInsertar()
             setId(producto.id)
-            peticionGet(`http://localhost/pinturas-hyc2/Backend/productos.php?id=${id}`, setProvMov) 
+            peticionGet(`https://pinturas-hyc.000webhostapp.com/Backend/productos.php?id=${id}`, setProvMov) 
             console.log(prodMov)
             
           }}>Insertar Movimiento</button>

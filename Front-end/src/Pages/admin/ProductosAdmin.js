@@ -49,6 +49,7 @@ const ProductosAdmin = () => {
         alert('Error: Ningún campo puede ser menor a 0')  
         return
     }
+   
       setDisabled(false)
       setProductoSeleccionado((prevState)=>({
         ...prevState,
@@ -80,6 +81,11 @@ const ProductosAdmin = () => {
     })
   }
   const peticionPost=async()=>{
+    if (productoSeleccionado.precioC > productoSeleccionado.precioV) {
+      setDisabled(true)
+        alert('Error: el precio de compra no puede ser mayor al precio de venta!')  
+        return
+    }
     if(productoSeleccionado.tamano <= 0 ||
       productoSeleccionado.precioC <= 0 || productoSeleccionado.precioV <= 0|| productoSeleccionado.stockMin <= 0) {
       alert('Error: Ningún campo puede estar vacio')  
