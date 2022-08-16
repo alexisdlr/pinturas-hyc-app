@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 export const CreateUser = () => {
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/registrar.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/registrar.php'
 
   const [values, setValues] = useState({
     nombre: '',

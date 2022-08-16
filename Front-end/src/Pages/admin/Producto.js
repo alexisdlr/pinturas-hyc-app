@@ -4,10 +4,9 @@ import axios from "axios"
 import pintura from '../../images/revesto.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import { peticionGet } from "../../services/get";
 export const Producto = () => {
   const params = useParams()
-  const baseUrl = `http://localhost/pinturas-hyc2/Backend/productos.php?id=${params.productoId}`
+  const baseUrl = `https://pinturas-hyc.000webhostapp.com/Backend/productos.php?id=${params.productoId}`
   const [data, setData]=useState(null)
   let navigate = useNavigate()
   const [modalEditar, setModalEditar]= useState(false)
@@ -25,6 +24,15 @@ export const Producto = () => {
     precioV:''
   })
  
+  const peticionGet=async(url, state)=>{
+    await axios.get(url)
+    .then(response=>{
+      console.log(response)
+      state(response.data);
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
   const handleChange=e=>{
     const {name, value}=e.target;
@@ -42,8 +50,6 @@ export const Producto = () => {
     setModalEliminar(!modalEliminar)
   }
 
-  
-
   const peticionPut=async()=>{
     var f = new FormData();
     f.append("nombre", productoSeleccionado.nombre);
@@ -53,7 +59,6 @@ export const Producto = () => {
     f.append("acabado", productoSeleccionado.acabado);
     f.append("precioC", productoSeleccionado.precioC);
     f.append("precioV", productoSeleccionado.precioV);
-
     f.append("METHOD", "PUT");
     await axios.post(baseUrl, f, {params: {id: productoSeleccionado.id}})
     .then(response=>{
@@ -81,7 +86,6 @@ export const Producto = () => {
     .then(response=>{
       setData(data.filter(producto=>producto.id!==productoSeleccionado.id));
       abrirCerrarModalEliminar();
-      
     }).catch(error=>{
       console.log(error);
     })
@@ -103,7 +107,8 @@ export const Producto = () => {
       
       {
         data ? 
-        <div style={{ width: '-webkit-fill-available'}}  className='d-flex gap-5 justify-content-center '>
+        data.map(data => (
+          <div style={{ width: '-webkit-fill-available'}}  className='d-flex gap-5 justify-content-center '>
           {data.stock < data.stockMin ? <div>
             <p className="alert alert-danger">Alerta: <br /> producto escaso</p>
           </div> : ''}
@@ -127,7 +132,8 @@ export const Producto = () => {
 
           <div className="d-flex align-items-center gap-2 text-start">
             <h2 className="fs-4"><span className="subtitle">Color:</span></h2>
-            <img className="img" src={data.imagen} alt='img color' /> 
+            <img src={"data:image/+data.extension+;base64,"+data.imagen} className="img" 
+                alt="imagen"/>
 
           </div>
         </div>
@@ -139,57 +145,14 @@ export const Producto = () => {
       
           </div>
 
-      </div> : 'no hay datos'
+      </div>
+        )) : 'no hay datos'
       } 
           
        
       
 
     </div>
-    
-  {/* <Table className='table-bordered'>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Tipo</th>
-        <th>Marca</th>
-        <th>tamaño</th> 
-        <th>Stock</th> 
-        <th>acabado</th>                   
-        <th>Color</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-<tbody>
-      {data.map(producto=>(
-        <tr key={producto.id}>
-          <td>{producto.id}</td>
-          <td>
-            <h1>        {producto.nombre}
-</h1>
-            </td>
-          <td>{producto.tipo}</td>
-          <td>{producto.marca}</td>
-          <td>{producto.tamano} lts</td>
-          <td>{producto.stock}</td>
-          <td>{producto.acabado}</td>
-          <td>
-            <img className='img' src={producto.imagen} alt='imagen de color'/>
-          </td>
-
-
-
-        <td>
-        <button className="btn btn-primary" onClick={()=>seleccionarProducto(producto, "Editar")}>Editar</button> {"  "}
-        <button className="btn btn-danger" onClick={()=>seleccionarProducto(producto, "Eliminar")}>Eliminar</button>
-        </td>
-        </tr>
-      ))}
-
-
-    </tbody> 
-</Table> */}
 
       <Modal isOpen={modalEditar}>
     <ModalHeader>Editar Producto</ModalHeader>
@@ -238,7 +201,7 @@ export const Producto = () => {
       <ModalFooter>
         <button className="btn btn-danger" onClick={()=>{
           peticionDelete()
-          navigate("/admin", {replace:true})
+          navigate("/app/admin", {replace:true})
         }
           }>
           Sí

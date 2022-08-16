@@ -1,21 +1,18 @@
 <?php
 
 include 'bd/bd.php';
-
-header('Access-Control-Allow-Origin: *');
+require_once('conexion.php');
+require_once('api.php');
+require_once('cors.php');
 
 
 if($_SERVER['REQUEST_METHOD']=='GET'){
-  if(isset($_GET['id'])){
-      $query="select * from v_productos where id=".$_GET['id'];
-      $resultado=metodoGet($query);
-      echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
-  }else{
-      $query="select * from v_productos";
-      $resultado=metodoGet($query);
-      echo json_encode($resultado->fetchAll()); 
-  }
-  header("HTTP/1.1 200 OK");
+    $vector = array();
+    $api = new ApiColores();
+    $vector = $api->getProductos();
+    $json = json_encode($vector);
+    echo $json;
+  
   exit();
 }
 
@@ -60,12 +57,9 @@ if($_POST['METHOD']=='PUT'){
 if($_POST['METHOD']=='DELETE'){
   unset($_POST['METHOD']);
   $id=$_GET['id'];
-  $query="DELETE FROM productos WHERE id='$id'";
+  $query="DELETE FROM productos WHERE id='$id';";
   $resultado=metodoDelete($query);
   echo json_encode($resultado);
   header("HTTP/1.1 200 OK");
   exit();
 }
-header('Content-Type: aplication/json');
-
-header("HTTP/1.1 400 Bad Request");

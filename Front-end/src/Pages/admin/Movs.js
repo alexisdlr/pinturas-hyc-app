@@ -10,13 +10,20 @@ import { useProd } from '../../hooks/useProd';
 
 const Movs = ({idUser}) => {
 
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/movimientos.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/movimientos.php'
   const {prod} = useProd()
   const [id, setId] = useState(null)
   const [data, setData]=useState([])
+  const [disabled, setDisabled]=useState(false)
+  const [prodMov, setProvMov] = useState({
+    id: '',
+    nombre: '',
+    tipo: '',
+    marca: '',
+    stock: ''
+  })
   const [searchParams, setSearchParams] = useSearchParams()
   const [modalInsertar, setModalInsertar]= useState(false)
-  const [modalEliminar, setModalEliminar]= useState(false)
   const [mov, setMov]=useState({
     id: '',
     tipo: '',
@@ -25,8 +32,26 @@ const Movs = ({idUser}) => {
     idProd: ''
     
   })
-  const handleChange=e=>{
+  const handleChange= e =>{
     const {name, value}=e.target;
+
+    if (value < 0 ) {
+      alert('Error: Ningun campo puede ser menor o igual a 0');
+      setDisabled(true)
+      return
+    }
+    //nX%N!^gTviz?z9ar
+    console.log(parseInt(value) > prodMov.map(({stock}) => stock )[0])
+    console.log(parseInt(value))
+    console.log(prodMov.map(({stock}) => stock )[0])
+    if(mov.tipo === 'salida') {
+      if(parseInt(value) > prodMov.map(({stock}) => stock )[0]) {
+        alert('Error: La cantidad no puede ser mayor a la existencia');
+        setDisabled(true)
+        return  
+      }
+    }
+    setDisabled(false)
     setMov((prevState)=>({
       ...prevState,
       [name]: value
@@ -44,12 +69,12 @@ const Movs = ({idUser}) => {
     setModalInsertar(!modalInsertar);
   }
 
-  const abrirCerrarModalEliminar=()=>{
-    setModalEliminar(!modalEliminar);
-  }
-  
 
   const peticionPost=async()=>{
+    if(mov.cantidad === '' || mov.cantidad <= 0 || mov.tipo === '') {
+      alert('Error: La cantidad no puede estar vacia')
+      return
+    }
     var f = new FormData();
     f.append("tipo", mov.tipo);
     f.append("cantidad", mov.cantidad);
@@ -63,32 +88,24 @@ const Movs = ({idUser}) => {
     }).catch(error=>{
       console.log(error);
     })
+      
   }
 
-  const peticionDelete=async()=>{
-    var f = new FormData();
-    f.append("METHOD", "DELETE");
-    await axios.post(baseUrl, f, {params: {id: mov.id}})
-    .then(response=>{
-      setData(data.filter(producto=>producto.id!==mov.id));
-      abrirCerrarModalEliminar();
-    }).catch(error=>{
-      console.log(error);
-    })
-  }
+
  
    useEffect(()=>{
      peticionGet(baseUrl, setData) 
-
   },[])
    
 
   return (
     <div style={{height: '100vh'}}>
-      
-     
       <div className='container fluid d-flex justify-content-center margin-top' id='productos'>
         <Title classList='title' text='Movimientos' />
+      </div>
+      <div className='d-flex justify-content-center mb-4'>
+        <Title classList='text-sm-center text-wrap fs-4 w-50' isHeading={false} 
+        text='Seleccione un producto para agregar inventario o indicar una venta.'  />
       </div>
       <div className='d-flex justify-content-center'>
           <div className='container-buscar'>
@@ -120,7 +137,9 @@ const Movs = ({idUser}) => {
         </tr>
       </thead>
   <tbody>
-        {prod
+        {
+        prod ?
+        prod
           .filter(producto => {
             if (!filter) return true;
 
@@ -132,9 +151,10 @@ const Movs = ({idUser}) => {
             <td>{producto.nombre}</td>
             <td>{producto.tipo}</td>
             <td>{producto.stock}</td>
-            <td>{producto.precioC}</td>
+            <td>{producto.precioV}</td>
             <td>
-                <img className='img' src={producto.imagen} alt='imagen de color'/>
+            <img src={"data:image/+item.extension+;base64,"+producto.imagen} className="img" 
+                alt="imagen"/>
               </td>
 
           <td>
@@ -142,17 +162,18 @@ const Movs = ({idUser}) => {
             ()=>{
             abrirCerrarModalInsertar()
             setId(producto.id)
+            peticionGet(`http://localhost/pinturas-hyc2/Backend/productos.php?id=${id}`, setProvMov) 
+            console.log(prodMov)
+            
           }}>Insertar Movimiento</button>
           </td>
           </tr>
-        ))}
+        )): 'no hay datos'}
 
 
       </tbody> 
 </Table>
 </div>
-
-
         <Modal isOpen={modalInsertar}>
           <ModalHeader>Insertar</ModalHeader>
           <ModalBody>
@@ -175,33 +196,17 @@ const Movs = ({idUser}) => {
               <label>Cantidad : </label>
               <br />
               <input type="text" className="form-control" name="cantidad" onChange={handleChange}/>
-
+            
+              
                  
             </div>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary" onClick={()=>peticionPost()}>Insertar</button>{"   "}
+            <button disabled={disabled} className="btn btn-primary" onClick={()=>peticionPost()}>Insertar</button>{"   "}
             <button className="btn btn-danger" onClick={()=>abrirCerrarModalInsertar()}>Cancelar</button>
           </ModalFooter>
         </Modal>
         
-
-    <Modal isOpen={modalEliminar}>
-        <ModalBody>
-        ¿Estás seguro que deseas eliminar el Movimiento {mov && mov.id}?
-        </ModalBody>
-        <ModalFooter>
-          <button className="btn btn-danger" onClick={()=>peticionDelete()}>
-            Sí
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={()=>abrirCerrarModalEliminar()}
-          >
-            No
-          </button>
-        </ModalFooter>
-      </Modal>
     </div>
       )
     }

@@ -8,10 +8,11 @@ import { Icon } from '../../components/Icon';
 
 
 const ProductosAdmin = () => {
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/productos.php'
-  const baseUrl1 = 'http://localhost/pinturas-hyc2/Backend/colores.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/productos.php'
+  const baseUrl1 = 'https://pinturas-hyc.000webhostapp.com/Backend/colores.php'
   const [data, setData]=useState([])
   const [color, setColor]=useState([])
+  const [disabled, setDisabled]=useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const [modalInsertar, setModalInsertar]= useState(false)
   const [modalEditar, setModalEditar]= useState(false)
@@ -37,10 +38,25 @@ const ProductosAdmin = () => {
 
   const handleChange=e=>{
     const {name, value}=e.target;
-    setProductoSeleccionado((prevState)=>({
-      ...prevState,
-      [name]: value
-    }))
+    const condition = value === ''
+    if(condition) {
+        setDisabled(true)
+        alert('Error: Ningún campo puede estar vacio')  
+        return
+    }  
+    if (value <= 0) {
+      setDisabled(true)
+        alert('Error: Ningún campo puede ser menor a 0')  
+        return
+    }
+      setDisabled(false)
+      setProductoSeleccionado((prevState)=>({
+        ...prevState,
+        [name]: value
+      }))
+      console.log(productoSeleccionado)
+    
+
   }
 
   const abrirCerrarModalInsertar=()=>{
@@ -64,6 +80,12 @@ const ProductosAdmin = () => {
     })
   }
   const peticionPost=async()=>{
+    if(productoSeleccionado.tamano <= 0 ||
+      productoSeleccionado.precioC <= 0 || productoSeleccionado.precioV <= 0|| productoSeleccionado.stockMin <= 0) {
+      alert('Error: Ningún campo puede estar vacio')  
+      setDisabled(true)
+      return
+  }
     let f = new FormData();
     f.append("nombre", productoSeleccionado.nombre)
     f.append("tipo", productoSeleccionado.tipo)
@@ -127,8 +149,6 @@ const ProductosAdmin = () => {
   useEffect(()=>{
     peticionGet(baseUrl, setData) 
     peticionGet(baseUrl1, setColor) 
-
-    
   },[data.length])
 
   return (
@@ -194,7 +214,8 @@ const ProductosAdmin = () => {
               <td>{producto.stock}</td>
               <td>{producto.acabado}</td>
               <td>
-                <img className='img' src={producto.imagen} alt='imagen de color'/>
+                <img src={"data:image/+item.extension+;base64,"+producto.imagen} className="img" 
+              alt="imagen"/>
               </td>
 
             </tr>
@@ -207,7 +228,7 @@ const ProductosAdmin = () => {
 </div>
 
 
-        <Modal isOpen={modalInsertar}>
+        <Modal isOpen={modalInsertar} className='width-650'>
           <ModalHeader>Insertar Producto</ModalHeader>
           <ModalBody>
             <div className="form-group ">
@@ -232,21 +253,48 @@ const ProductosAdmin = () => {
                 </div>
                 <div>
                 <label>Marca: </label>
-              <input type="text" className="form-control" name="marca" onChange={handleChange}/>
+                <select className="form-control" name="marca" onChange={handleChange} > 
+                <option disabled selected>
+                  Seleccione una marca
+                </option>
+                  <option value='Ultra vin'>
+                  Ultra vin
+                    </option>
+                    <option value='Osel' >
+                  Osel
+                    </option>
+                  </select>
                 </div>   
             </div>
             <div className='d-flex gap-3 justify-content-between mb-5'> 
               <div>
                 <label>Tamaño: </label>
-                <input type="text" className="form-control" name="tamano" onChange={handleChange}/>
+                <input type="number" min='0' className="form-control" name="tamano" onChange={handleChange}/>
               </div>
               <div>
                 <label>Stock Min: </label>
-                <input type="text" className="form-control" name="stockMin" onChange={handleChange}/>
+                <input type="number" min='0' className="form-control" name="stockMin" onChange={handleChange}/>
+
               </div>
               <div>
                 <label>Acabado : </label>
-                <input type="text" className="form-control" name="acabado" onChange={handleChange}/>
+                <select className="form-control" name="acabado" onChange={handleChange} > 
+                <option disabled selected>
+                  Seleccione un acabado
+                </option>
+                  <option value='Acrilico'>
+                  Acrilico
+                    </option>
+                    <option value='Brilloso' >
+                  Brilloso
+                    </option>
+                    <option value='Super Gloss' >
+                  Super gloss
+                    </option>
+                    <option value='Super Gloss' >
+                  Vinilico
+                    </option>
+                  </select>
               </div>
             </div>
             <div className='d-flex gap-3 justify-content-between mb-5'>
@@ -270,18 +318,21 @@ const ProductosAdmin = () => {
               </div>
               <div>
                 <label>Precio compra: </label>
-                <input type="text" className="form-control" name="precioC" onChange={handleChange}/>
+                <input type="number" min='0' className="form-control" name="precioC" onChange={handleChange}/>
+                {productoSeleccionado.precioC<0 ? <div className='alert alert-danger'>No puede ser menor a 0</div> : ''}
+
               </div>
               <div>
                 <label>Precio Venta: </label>
-                <input type="text" className="form-control" name="precioV" onChange={handleChange}/>
+                <input type="number" min='0' className="form-control" name="precioV" onChange={handleChange}/>
+                {productoSeleccionado.precioV<0 ? <div className='alert alert-danger'>No puede ser menor a 0</div> : ''}
               </div>
             </div>
              
             </div>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary" onClick={()=>peticionPost(baseUrl, setData)}>Insertar</button>{"   "}
+            <button disabled={disabled} className="btn btn-primary" onClick={()=>peticionPost(baseUrl, setData)}>Insertar</button>{"   "}
             <button className="btn btn-danger" onClick={()=>abrirCerrarModalInsertar()}>Cancelar</button>
           </ModalFooter>
         </Modal>

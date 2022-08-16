@@ -5,17 +5,15 @@ import {Modal, ModalBody, ModalFooter, ModalHeader, Table} from 'reactstrap';
 import Title from '../../components/Title';
 
 const Colores = () => {
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/colores.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/colores.php'
   const [data, setData]=useState([])
-  const fileRef = useRef()
-  const [file, setFile ] = useState(null)
+  const [imagen, setImagen] = useState(null);
   const [modalInsertar, setModalInsertar]= useState(false)
   const [modalEditar, setModalEditar]= useState(false)
   const [modalEliminar, setModalEliminar]= useState(false)
   const [color, setColor]=useState({
     id: '',
     nombre: '',
-    file: file,
     codigo: '',
     
   })
@@ -47,19 +45,16 @@ const Colores = () => {
     })
   }
   const peticionPost=async()=>{
+    if(color.nombre === '' || color.codigo <= 0 || imagen === '') {
+      alert('Error: Ningun campo puede estar vacío')
+      return
+    }
     var f = new FormData();
     f.append("nombre", color.nombre);
-    f.append("imagen", file.name);
+    f.append("imagen", imagen);
     f.append("codigo", color.codigo);
     f.append("METHOD", "POST");
-    await axios.post(baseUrl, f,
-      {
-          "headers" :
-                          { 
-
-                            "Content-Type":"multipart/form-data",
-                          }
-      })
+    await axios.post(baseUrl, f)
     .then(response=>{
       setData(data.concat(response.data));
       abrirCerrarModalInsertar();
@@ -70,7 +65,7 @@ const Colores = () => {
   const peticionPut=async()=>{
     var f = new FormData();
     f.append("nombre", color.nombre);
-    f.append("imagen", color.imagen);
+    f.append("imagen", imagen);
     f.append("codigo", color.codigo);
     f.append("METHOD", "PUT");
     await axios.post(baseUrl, f, {params: {id: color.id}})
@@ -134,10 +129,10 @@ const Colores = () => {
       </thead>
   <tbody>
         {data.map(producto=>(
-          <tr key={producto.codigo}>
+          <tr key={producto.id}>
             <td>{producto.id}</td>
             <td>{producto.nombre}</td>
-            <td><img className='rounded img' src={producto.imagen} alt='imagen'/></td>
+            <td><img className='rounded img' src={"data:image/png;base64,"+producto.imagen} alt='imagen'/></td>
             <td>{producto.codigo}</td>
 
 
@@ -162,17 +157,9 @@ const Colores = () => {
               <br />
               <input type="text" className="form-control" name="nombre" onChange={handleChange}/>
               <br />
-              <label>Imagen : </label>
-              <input 
-                type="file"
-                // onChange={ e => setFiles(e.target.value)}
-                onChange={() => {
-                  setFile(fileRef.current.files[0])
-                  console.log(fileRef.current.files[0])
-                }
-                }
-                ref={fileRef}
-            />
+              <label >Imagen : </label>
+              <input type="file" className="form-control" accept="image/*"
+               onChange={(e) => setImagen(e.target.files[0])} multiple/>
               <br/>
               <label>Codigo : </label>
               <br />
@@ -195,7 +182,8 @@ const Colores = () => {
           <br />
           <label>Imagen : </label>
           <br />
-          <input type="text" className="form-control" name="imagen" onChange={handleChange} value={color && color.imagen}/>
+          <input type="file" className="form-control" accept="image/*"
+               onChange={(e) => setImagen(e.target.files[0])} multiple/>
           <br />
           <label>Codigo : </label>
           <br />
@@ -230,4 +218,112 @@ const Colores = () => {
     </div>
       )
     }
+// function Colores() {
+//   const baseUrl = 'http://localhost/pinturas-hyc2/Backend/colores.php'
+//   const [lista, setLista] =  useState([]);
+//   const [data, setData] = useState({
+//     id: '',
+//     nombre: '',
+//     codigo:''
+//   });  
+//   const [imagen, setImagen] = useState(null);
+  
+// useEffect(() => {
+// peticionGet();
+// },[])
+
+// const peticionGet=async()=>{
+//     await axios.get(baseUrl)
+//    .then(response=>{
+//          setLista(response.data);
+//     }).catch(error=>{
+//          console.log(error);
+//        })
+//      }
+
+// async function addImagen(e) {
+//  e.preventDefault();
+//  let fd = new FormData() 
+//  fd.append("nombre", data.nombre)
+//  fd.append("imagen", imagen)
+//  fd.append("codigo", data.codigo)
+//  const res = await axios.post(baseUrl, fd);
+//  console.log(res.data)
+//  peticionGet();
+
+// }
+
+// const handleChange= e =>{
+//   const {name, value}=e.target;
+//   setData((prevState)=>({
+//     ...prevState,
+//     [name]: value
+//   }))
+// }
+
+// async function deleteImagen(id){ 
+
+//  if(window.confirm('Quieres eliminar?')){
+//     const res = await axios.delete('http://localhost/apirest/?id='+id);
+//     peticionGet();
+//     console.log(res.data)
+// }
+// } 
+
+
+// return (
+
+// <div className="container ">
+// <div className="row p-3">
+
+// <div className="col-md-5 p-2 ">
+//        <form className="card p-2 mt-2 border-secondary" encType="multipart/form-data">
+//          <h5>Colores</h5>
+        
+//          <textarea  cols="4" placeholder="nombre" name='nombre' className="form-control" 
+//          onChange={handleChange} >
+
+//          </textarea>
+//          <textarea  cols="4" placeholder="codigo" name='codigo' className="form-control" 
+//          onChange={handleChange} >
+
+//          </textarea>
+
+//          <div className="form-group">
+//            <label htmlFor="img">imagen</label> 
+//             <input type="file"   className="form-control-file" accept="image/*"
+//                 onChange={(e) => setImagen(e.target.files[0])} multiple/></div> 
+          
+//             <button  className="btn btn-outline-success btn-sm" 
+//               onClick={(e) => addImagen(e)} >Add </button> 
+//        </form>
+//      </div>
+
+//      <div className="col-md-7 p-2">
+//           { lista.map(item => (
+//           <div className="card p-2 mt-2 border-secondary" key={item.id}>
+//             <div className="card-body">
+//             <img src={"data:image/png;base64,"+item.imagen} className="img-fluid" 
+//               alt="imagen"/>
+//           <h5 className="text-primary"> {item.nombre}</h5>  
+
+//                   <div className="d-flex flex-row-reverse" >
+//                      <button  className="btn btn-outline-danger btn-sm " 
+//                          onClick={() => deleteImagen(item.id)} >
+//                          </button> 
+                    
+//                    </div>  
+                    
+//                 </div> 
+//             </div>         
+//           ))}  
+//    </div>
+
+// </div>
+    
+     
+// </div>
+
+// );
+// }
     export default Colores

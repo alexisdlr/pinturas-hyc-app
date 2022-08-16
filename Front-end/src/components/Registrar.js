@@ -54,8 +54,8 @@ const Registrar = () => {
         <input type='email' name='usuario' placeholder="Ingresa un correo"
         value={values.usuario}
         onChange={handleChange}  />
-        <input type="password" name="password" placeholder="Ingresa una contraseña"
-        value={values.password}
+        <input type="password" name="clave" placeholder="Ingresa una contraseña"
+        value={values.clave}
         onChange={handleChange}
         />
         <div className="registrar">

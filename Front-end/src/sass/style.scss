@@ -131,13 +131,13 @@ a {
  }
  @keyframes drop {
   0% {
-    transform: translateX(80px);
+    transform: translateX(90px);
   }
   75% {
-    transform: translateX(5px);
+    transform: translateX(90px);
   }
   100% {
-    transform: translateX(0px);
+    transform: translateX(90px);
   }
  }
 .user-item {
@@ -194,4 +194,16 @@ a {
       }
      
   }
+}
+
+.input-fechas {
+  display: block;
+  max-width: 500px;
+  padding: 0.3rem 1.5rem;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #0099fd;
+}
+.width-650 {
+  width: 650px;
 }

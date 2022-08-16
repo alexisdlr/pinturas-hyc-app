@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { peticionGet } from '../services/get';
 
 export const useVentas = () => {
-  const baseUrl = 'http://localhost/pinturas-hyc2/Backend/ventas.php'
+  const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/ventas.php'
   const [ventas, setVentas ]=useState([])
 
 
