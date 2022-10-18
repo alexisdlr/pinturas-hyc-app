@@ -7,7 +7,6 @@ const Registrar = () => {
 
   const baseUrl = 'https://pinturas-hyc.000webhostapp.com/Backend/registrar.php'
   const [data, setData]=useState([]);
-
   const [values, setValues] = useState({
     nombre: '',
     usuario:'',
@@ -36,6 +35,7 @@ const Registrar = () => {
     await axios.post(baseUrl, f)
     .then(response=>{
       setData(data.concat(response.data));
+      alert('Se registro correctamente!')
     }).catch(error=>{
       console.log(error);
     })
@@ -60,8 +60,12 @@ const Registrar = () => {
         />
         <div className="registrar">
             <p>Ya tienes una cuenta? <Link to='/auth/Login'>Inicia Sesion.</Link></p>
-            <button type="submit" onClick={() => peticionPost()}>Registrarse</button> 
+            <button type="submit" onClick={(e) =>{
+              e.preventDefault()
+              peticionPost()
+            } }>Registrarse</button> 
         </div>
+      
   </form>
     </div>
     </>
